@@ -1,0 +1,72 @@
+
+<div class="container-fluid usersite_header">
+	<div class="col row ">
+	
+		<div class="col-sm-12 col-lg-2 col-md-2">
+				<i class="fa fa-hand-holding-usd" style="font-size: 1.5em;color: #0C5F8F;"><%= domainname %></i>
+			
+		</div>
+		
+		<div class="usersite_headerbutton justify-content-end text-right col-sm-12 col-lg-10 col-md-10" >
+				
+				<a class=" menu_atag font-weight-bold personalHeader " data-menu="user" href="/admin/user/welcome">Personal</a>
+			
+				<% if(settings.user.is_business == 1){%>
+				<a class=" menu_atag font-weight-bold " data-menu="business" href="/admin/business/business_index">Business</a>
+				<%}%>
+				<!-- <a href="/admin/howto/howto_index" class="d-none col-2 btn menu_atag font-weight-bold" data-menu="howto" >Documentation </a>
+-->
+			<% if(settings.user.role_id = 2 ){%>
+				<a class=" menu_atag font-weight-bold " id="btnupdateBusiness"   > Register Business?</a>
+
+			<%}else{%>
+				<select id="userRole" style = "   color: #3c9820;    font-weight: 500;" >
+						<option value="personal">&nbsp;&nbsp;Personal</option>
+						<option value="business">&nbsp;&nbsp;Business</option>
+					</select>
+			<%}%>
+			
+			<a class=" menu_atag font-weight-bold " id="btnuserprofile" >
+				Settings
+			</a> 
+			<a class=" menu_atag font-weight-bold"  href="/admin/logout" id="btnlogout">Logout</a>
+		</div>
+	</div>
+	
+</div>
+
+		
+<!--
+	Alert Modal -->
+	<div class="modal fade alertModal" style="z-index: 2000;" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalCenterTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered " role="document">
+			  <div class="modal-content">
+				<div class="modal-header">
+					<span class="text-danger">Alert!</span>
+				</div>
+				<div class="modal-body text-center alertModalBody">
+				 
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-primary alertModal_Comfirm ">Ok</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		  
+		  <div class="modal fade addMoneyModel" style="z-index: 2000;" id="addMoneyModel" tabindex="-1" role="dialog" aria-labelledby="addMoneyModelCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+				  <div class="modal-content">
+					<div class="modal-header">
+						<span class="text-danger">Add Money</span>
+					</div>
+					<div class="modal-body text-center addMoneyModelBody">
+					 
+					</div>
+					
+				  </div>
+				</div>
+			  </div>
+
+
+			  

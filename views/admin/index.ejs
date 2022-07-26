@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+		<% include ./partials/head %>
+    
+  </head>
+  <body>
+
+		<% include ./partials/header %>
+                <div class="container-fluid ">
+                    <div class="row justify-content-center" style="height: 100vh;">
+                    
+                                
+                            <div class="page-body container">
+                                <div class="row">
+                                       <% if (typeof bodypage !== 'undefined') { %>
+                                        <%- include(bodypage) %>
+                                    <% } %>
+                                </div>
+                                 
+                            </div>
+                    </div>
+                </div>
+                       
+                   
+               
+      
+	<% include ./partials/script %>
+	</body>
+</html>

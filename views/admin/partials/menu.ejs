@@ -1,0 +1,49 @@
+
+        <div id="mySidenav" class="sidenav">
+       
+        <div class="list-group panel">
+                
+            <%
+                var sub_start = false;
+                var last = menus.length - 1;
+                
+                var addClass;                                    
+                for(var i=0; i < menus.length; i++ ){
+                        if(pathname == menus[i].menu_url){
+                            addClass = "active";
+                        }else{
+                            addClass = "";
+                        }
+                    if(menus[i].parent_id == 0){
+                        if(sub_start){
+                        %>
+                        </div>
+                        <% sub_start = false;
+                        }
+                        if(menus[i].is_sub == 0){ %>
+                            <a href="#IDmenu<%= menus[i].menu_id %>" id="collapse_<%= menus[i].menu_id %>"  class="list-group-item list-group-item-action collapsed <%= addClass %>" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa <%= menus[i].menu_icon %>"></i> <span class="hidden-sm-down"><%= menus[i].menu_name %> <i class="fa fa-caret-down float-right"></i></span> </a>
+                
+                            <div class="collapse " id="IDmenu<%= menus[i].menu_id %>">
+                    <%  } else{ 
+                    %>
+                            <a href="<%= menus[i].menu_url %>" class="list-group-item list-group-item-action collapsed <%= addClass %>" data-parent="#sidebar"><i class="fa <%= menus[i].menu_icon %>"></i> <span class="hidden-sm-down"><%= menus[i].menu_name %></span></a>
+                        
+    
+                        <% 
+                        }
+                    } else{
+                        if(menus[i].sub_number > 0){
+                            sub_start = true;
+                        } %>
+                        <a href="<%= menus[i].menu_url %>" class="list-group-item list-group-item-action <%= addClass %>" data-parentID = "<%= menus[i].parent_id %>" data-parent="#IDmenu<%= menus[i].parent_id %>"><i class="fa <%= menus[i].menu_icon %>"></i> <%= menus[i].menu_name %></a>
+                        <%  if(i == last){
+                        %>
+                        </div> 
+                        <% }
+                    }
+                }
+                %>
+    
+            </div>
+    
+      </div>

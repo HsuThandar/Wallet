@@ -1,0 +1,50 @@
+
+<div class="col-12 row justify-content-center">
+    <h3><a href="#">Tell us about your issue so we can help you more quickly.</a> </h3>
+</div>
+<br><br><br>
+<div class="col-12 ">
+<form id="contactForm" method="POST" action="/contactFormsubmit">
+    <% if(error){%>
+        <div class="alert alert-warning" role="alert">
+            Can't submit it now. Try again.
+        </div>
+    <%}%>
+    <% if (typeof text !== 'undefined') { %>
+        <div class="alert alert-success" role="alert">
+            <%= text ? text : ""  %>
+        </div>
+    <%}%>
+    
+    <div class="form-group row justify-content-center" >
+        
+        <input class="col-7 form-control   " type="text" id="fullname" required name="fullname" placeholder="Fullname*" />
+    
+    </div>
+    <div class="form-group row justify-content-center" >
+        
+        <input class="col-7 form-control   " type="email" id="email" required name="email" placeholder="Email*" />
+    
+    </div>
+    <div class="form-group row justify-content-center" >
+        
+        <input class="col-7 form-control   " type="int" id="phonenumber" required name="phonenumber" placeholder="Phone Number*" />
+    
+    </div>
+    <div class="form-group row justify-content-center" >
+        
+        <input class="col-7 form-control   " type="text" id="subject" required name="subject" placeholder="Subject*" />
+    
+    </div>
+    <div class="form-group row justify-content-center" >
+    
+      <textarea name="comment" id="comment" row=5 class="col-7 form-control md-textarea   " required placeholder="Comment*"></textarea>
+    </div>
+    
+    <div class="form-group row justify-content-center">
+            
+        <button type="submit" class="btn btnformmpay col-7 btn-lg">Send</button> 
+    </div>
+    
+</form>
+</div>

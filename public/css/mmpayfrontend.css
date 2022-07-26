@@ -1,0 +1,104 @@
+body{
+   font-family : 'Pyidaungsu';
+}
+.usersite_header{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.usersite-brand{
+    font-size: 1.5em;
+    color: #0C5F8F;
+}
+.menu_atag{
+    text-align: center;
+    font-size: 1.2em;
+}
+.menu_atag:hover{
+    color:#007bff;
+}
+.menu_atag.active{
+    color:#007bff;
+}
+.btnformmpay{
+color:#fff;
+background-color: #0C5F8F;
+border-color: #0C5F8F;
+}
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+.btn-facebook {
+color: #fff;
+background-color: #3b5998;
+border-color: rgba(0,0,0,0.2);
+}
+.btn-gmail {
+color: #fff;
+background-color: #9b0f0f;
+border-color: rgba(0,0,0,0.2);
+}
+
+.btn-social {
+position: relative;
+padding-left: 44px;
+text-align: left;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+
+.btn-social:hover {
+color: #eee;
+}
+
+.btn-social :first-child {
+position: absolute;
+left: 0;
+top: 0;
+bottom: 0;
+width: 40px;
+padding: 7px;
+font-size: 1.6em;
+text-align: center;
+border-right: 1px solid rgba(0,0,0,0.2);
+}
+.container-home{
+text-align: center;
+border: 0.2px solid #fdf3f3;
+width: 100%;
+padding: 1em;
+}
+.container-body{
+text-align: left;
+padding: 10px;
+}
+.howtocard{
+border: 2px solid rgba(0,0,0,.125);
+border-radius: 1rem;
+border-style: dotted;
+
+}
+.footer-css{
+background: #f0f1f0;
+padding: 20px;
+}
+
+
+
+    @media screen and (min-width: 800px) {
+        .howtoimage{
+            height:60%;
+        }
+        .whymmpay_figure {
+            padding-left: 8em;
+            padding-right: 3em;
+        }
+    }
+    @media only screen and (max-device-width: 480px) {
+        .howtoimage{
+            height:40%;
+        }
+    }

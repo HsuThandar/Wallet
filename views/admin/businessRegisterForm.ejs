@@ -1,0 +1,78 @@
+
+    <div class="justify-content-center col-lg-10" >
+        <div class="form-group row ">
+            <label for="username" class="col-5 userlabel">Owner:</label>
+            <input type="text" readonly  class=" col-6 userfield form-control" id="displayname" value="<%= admin.displayname %>">
+        </div>
+        <div class="form-group row">
+            <label for="email"  class="col-5 userlabel">Login Name:</label>
+            <input type="text" readonly class=" col-6 userfield form-control" id="loginaccount" value="<%= admin.loginaccount %>" >
+            <input type="hidden" class="" id="role_id" value='1'>
+        </div>
+        <div class="form-group row ">
+                <label for="" class="col-5 userlabel">Merchant Site Name:</label>
+                <input type="text"  class=" col-6 userfield form-control" id="merchant_name" value="" placeholder="Mercant Name">
+            </div>
+            <div class="form-group row ">
+                <label for="" class="col-5 userlabel">Merchant Site URL:</label>
+                <input type="text"  class=" col-6 userfield form-control" id="merchant_domainurl" value="" placeholder="eg. www.google.com">
+               
+            </div>
+            
+            <div class="form-group row ">
+                <label for="" class="col-5 userlabel">Contact No:</label>
+                <input type="text"  class=" col-6 userfield form-control" id="merchant_contactno" value="" placeholder="Mercant Contact No">
+            </div>
+            <div class="form-group row ">
+                <label for="" class="col-5 userlabel">Address:</label>
+                <input type="text" required class=" col-6 userfield form-control" id="merchant_address" value="" placeholder="Mercant Address">
+            </div>
+            <div class="form-group row ">
+                <label for="" class="col-5 userlabel">Callback URL:</label>
+                <input type="text"  class=" col-6 userfield form-control" id="m_callback_url" value="" placeholder="Mercant Callback URL">
+            </div>
+            <div class="form-group row ">
+                <label for="" class="col-5 userlabel">Redirect URL:</label>
+                <input type="text"  class=" col-6 userfield form-control" id="m_redirect_url" value="" placeholder="Mercant Redirect URL">
+            </div>
+            <hr>
+            <div class="col offset-md-4">
+                <button type="button" class=" btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="savebusinessuserBtn">Update</button>
+            </div>
+       
+    </div>
+    <script type="text/javascript">
+        $('#savebusinessuserBtn').click(function(e){
+            e.preventDefault();
+             console.log("here");
+            if($.trim($('#merchant_address').val()).length > 0){
+                var obj = {
+                        merchant_address : $('#merchant_address').val(),
+                        merchant_contactno : $('#merchant_contactno').val(),
+                        merchant_domainurl: $('#merchant_domainurl').val(),
+                        merchant_name : $('#merchant_name').val(),
+                        m_callback_url : $('#m_callback_url').val(),
+                        m_redirect_url : $('#m_redirect_url').val(),
+                       
+                   
+                }
+                $.post('/admin/user/savemerchant',obj,function(resp){
+                    if(resp.status == 500){
+                        myCustomAlert(resp.text);
+                    }else{
+                    
+                        $('#Business_Modal').modal('hide');
+
+                        window.location.href='/admin/business/business_index';
+                       
+                    }
+                });
+            }else{
+                console.log("here");
+                myCustomAlert(" All fields must be filled.");
+            }
+            
+        });
+    </script>
+    

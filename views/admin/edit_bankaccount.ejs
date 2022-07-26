@@ -1,0 +1,73 @@
+<% include user_setting.ejs %>
+<div class="col-sm-12 col-lg-9 col-md-9">
+        <div class="card">
+            <div class="card-header">Bank Information</div>
+            <div class="card-body">
+                <% if(linkedbank_data){%>
+                  
+                        
+                            <div class="table-responsive">
+                                    <table id="businessTable" class="table table-striped w-100 d-block d-md-table">
+                         
+                            <tbody>
+                               
+                                <tr>
+                                    <td class="td-label">Service Name</td>
+                                    <td><%= linkedbank_data.service_name %></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-label">Account Name</td>
+                                    <td><%= linkedbank_data.account_name %></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-label">Account Name</td>
+                                    <td><%= linkedbank_data.account_number %></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-label">Registered Date</td>
+                                    <td><%= linkedbank_data.registered_date %></td>
+                                </tr>
+                            </tbody>
+                        </table>    </div>
+                        <div class="col offset-md-4">
+                                <input type="hidden" readonly class=" col-6" id="linkedbank_id" value="<%= linkedbank_data.linkedbank_id %>" >
+
+                            <% if(linkedbank_data.is_deleted == 0){ %>
+                                <button type="button" class="btn btn-danger" id="deactiveLinkedBankBtn">Deactive</button>
+                            <% }else{ %>
+                                <button type="button" class="btn btnformmpay" id="activeLinkedBankBtn">Active</button>
+                            <% } %>
+                            </div>
+                <%}%>
+            </div> 
+           
+        </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#deactiveLinkedBankBtn').click(function(e){
+        e.preventDefault();
+        $.post('/admin/banking/deactiveLinkedBankBtn',{ linkedbank_id : $('#linkedbank_id').val()},function(resp){
+                if(resp.status == 500){
+                    myCustomAlert(resp.text);
+                }else{
+                
+                    window.location.reload();
+                   
+                }
+            });
+    });
+    $('#activeLinkedBankBtn').click(function(e){
+        e.preventDefault();
+        $.post('/admin/banking/activeLinkedBankBtn',{ linkedbank_id : $('#linkedbank_id').val()},function(resp){
+                if(resp.status == 500){
+                    myCustomAlert(resp.text);
+                }else{
+                    window.location.reload();
+                   
+                }
+            });
+    });
+    });
+    
+</script>

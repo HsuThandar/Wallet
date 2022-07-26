@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+		<% include ./partials/head %>
+    
+  </head>
+  <body>
+    
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v5.0&appId=668542890306089&autoLogAppEvents=1"></script>
+		<% include ./partials/header %>
+                <div class="container-fluid ">
+                    <div class="row justify-content-center" >
+                    
+                            <% if (typeof bodypage !== 'undefined') { %>
+                                <%- include(bodypage) %>
+                            <% } %>
+                      </div>
+                      
+                        <% include ./partials/footer %>
+                            
+                    </div>
+                </div>
+                <div id="fb-root"></div>
+                <div class="fb-customerchat"
+                page_id="101043751410251"
+                minimized="true">
+               </div>
+               <script>
+               
+               </script>
+<!-- 
+  //Load Facebook SDK for JavaScript
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      xfbml            : true,
+      version          : 'v5.0'
+    });
+  };
+
+  (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js#xfbml=1&version=v2.12&autoLogAppEvents=1';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+// Your customer chat code 
+<div class="fb-customerchat"
+logged_in_greeting = "How can I help you?" 
+logged_out_greeting = "How can I help you?" 
+  page_id="101043751410251">
+</div> -->
+
+	<% include ./partials/script %>
+	</body>
+</html>

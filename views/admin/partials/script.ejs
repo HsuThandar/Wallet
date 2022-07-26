@@ -1,0 +1,330 @@
+
+<div class="modal fade" id="Business_Modal" tabindex="-1" role="dialog" aria-labelledby="businessModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="businessModalLabel">Business</h5>
+            </div>
+            <div class="modal-body businessBody">
+                   
+                           
+            </div>
+            <div class="modal-footer d-none">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+<!-- Modal -->
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="userModalLabel">Profile</h5>
+        </div>
+        <div class="modal-body adminFormBody">
+               
+                       
+        </div>
+        <div class="modal-footer d-none">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="addmoney_Modal" tabindex="-1" role="dialog" aria-labelledby="addmoneyModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addmoneyModalLabel">Adding Funds</h5>
+          </div>
+          <div class="modal-body addmoneyBody">
+                 
+                         
+          </div>
+          <div class="modal-footer d-none">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+<div class="modal fade detailsModal" style="z-index: 2000;" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <span class="text-danger">Details</span>
+      </div>
+      <div class="modal-body text-center detailsModalBody">
+       
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+  </div>
+</div>
+</div>
+    <div class="modal fade" id="userQRCodeModal" tabindex="-1" role="dialog" aria-labelledby="userQRCodeModalLabel" aria-hidden="true">
+ 
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <span class="text-danger">QR Code</span>
+        </div>
+        <div class="modal-body text-center userQRCodeModalBody">
+         
+        </div>
+        
+    </div>
+  </div>
+  </div>
+
+		<script type="text/javascript">
+    
+          $(document).ready(function(){
+              if("<%= settings.session_message %>"){
+                myCustomAlert("<%= settings.session_message %>");
+              }
+              var pathname = window.location.pathname; 
+              var path_arr = pathname.split('/');
+              
+              $('a.menu_atag').each(function(){
+               
+                if($(this).attr('data-menu') == path_arr[2]){
+                  $(this).addClass('active');
+                }
+                if(path_arr[2] == 'banking'){
+                  $('.personalHeader').addClass('active');
+                }
+            })
+          });
+            
+            $(document).on('click', "#btnupdateBusiness", function(e) {  
+        
+                    e.preventDefault();
+                   
+                    $.post('/admin/user/getBusinessRegisterForm',function(result){
+                        if(result.status == 500){
+                            myCustomAlert(result.text);
+                        }else{
+                                $('.businessBody').html('');
+                                $('.businessBody').html(result);
+                                $('#Business_Modal').modal({
+                                    backdrop: 'static',
+                                    keyboard: false
+                                });
+                            
+                        }
+                    });
+                    
+            }); 
+            
+            $(document).on('click', "#btnuserprofile", function(e) {  
+        
+                    e.preventDefault();
+                   
+                    $.post('/admin/user/getAdminProfilePageByID',function(result){
+                        if(result.status == 500){
+                            myCustomAlert("Error");
+                        }else{
+                            $('.adminFormBody').html('');
+                            $('.adminFormBody').html(result);
+                            $('#userModal').modal({
+                                backdrop: 'static',
+                                keyboard: false
+                            });
+                            
+                        }
+                    });
+                    
+            }); 
+
+    $(document).on('click', "#saveuserBtn", function(e) {  
+        e.preventDefault();
+      
+
+        if( !$('#password').val() || ($('#password2').val() !=  $('#password').val()) ){
+            myCustomAlert(" All fields must be filled.<br> Password and confirm password must match.");
+        }else if( !$('#displayname').val() || !$('#loginaccount').val()){    
+            myCustomAlert(" All fields must be filled.<br> Login Name and Display Name must be filled.");
+
+        }else{
+            var obj = {
+             
+                displayname : $('#displayname').val(),
+                loginaccount : $('#loginaccount').val(),
+                password : $('#password').val(),
+                old_password : $('#old_password').val(),
+                role_id : $('#role_id').val()
+            };
+            $.post('/admin/user/saveuser',obj,function(resp){
+                if(resp.status == 500){
+                    myCustomAlert(resp.text);
+                }else{
+                  
+                    $('#userModal').modal('hide');
+                    $('#userListTable').DataTable().ajax.reload();
+                }
+            });
+        }
+       
+    });
+
+				function myCustomAlert(text){
+                    $('.alertModalBody').html('');
+                    $('.alertModalBody').html(text);
+                    
+                    $('#alertModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    $('.alertModal_Comfirm').click(function(){
+                        $('#alertModal').modal('hide');
+                    
+                        
+                    }); 
+                }
+        $('.btnaddmoney').click(function(e){
+            e.preventDefault();
+
+            $.post('/admin/mmpaywallet/get_updateMMPayBalance_form',function(result){
+                    if(result.status == 500){
+                        myCustomAlert("Error");
+                    }else{
+                        $('.addMoneyModelBody').html('');
+                        $('.addMoneyModelBody').html(result);
+                        $('#addMoneyModel').modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        });
+                    }
+            });
+
+        });
+        $(document).on('click', ".btntransactiondetail", function(e) {  
+        console.log('dd')
+        e.preventDefault();
+        $.post('/admin/transactionlog/transactiondetail',{transaction_id : $(this).attr('data-id') },function(resp){
+                if(resp.status == 500){
+                    myCustomAlert(resp.text);
+                }else{
+                
+                    $('.detailsModalBody').html('');
+                    $('.detailsModalBody').html(resp);
+                    $('#detailsModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                            
+                   
+                }
+            });
+          });
+        $(document).on('click', ".btntransactiondetail_enduser", function(e) {  
+        console.log('dd')
+        e.preventDefault();
+        $.post('/admin/transactionlog/transactiondetail_forenduser',{transaction_id : $(this).attr('data-id') },function(resp){
+                if(resp.status == 500){
+                    myCustomAlert(resp.text);
+                }else{
+                
+                    $('.detailsModalBody').html('');
+                    $('.detailsModalBody').html(resp);
+                    $('#detailsModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                            
+                   
+                }
+            });
+          });
+        
+        $(document).on('click', ".btntransactiondetail_formerchant", function(e) {  
+        console.log('dd')
+        e.preventDefault();
+        $.post('/admin/transactionlog/transactiondetail_formerchant',{transaction_id : $(this).attr('data-id') },function(resp){
+                if(resp.status == 500){
+                    myCustomAlert(resp.text);
+                }else{
+                
+                    $('.detailsModalBody').html('');
+                    $('.detailsModalBody').html(resp);
+                    $('#detailsModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                            
+                   
+                }
+            });
+          });
+
+          function convertToCSV(objArray) {
+    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+    var str = '';
+
+    for (var i = 0; i < array.length; i++) {
+        var line = '';
+        for (var index in array[i]) {
+            if (line != '') line += ','
+
+            line += array[i][index];
+        }
+
+        str += line + '\r\n';
+    }
+
+    return str;
+}
+
+function exportCSVFile(headers, items, fileTitle) {
+    if (headers) {
+        items.unshift(headers);
+    }
+
+    // Convert Object to JSON
+    var jsonObject = JSON.stringify(items);
+
+    var csv = this.convertToCSV(jsonObject);
+
+    var exportedFilenmae = fileTitle + '.csv' || 'export.csv';
+
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    if (navigator.msSaveBlob) { // IE 10+
+        navigator.msSaveBlob(blob, exportedFilenmae);
+    } else {
+        var link = document.createElement("a");
+        if (link.download !== undefined) { // feature detection
+            // Browsers that support HTML5 download attribute
+            var url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", exportedFilenmae);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+}
+
+$(document).on('click', ".btnUserQRcode", function(e) {  
+   
+        e.preventDefault();
+        $.post('/admin/user/userQRCode',function(resp){
+          
+                if(resp.status == 500){
+                    myCustomAlert(resp.data);
+                }else{
+                   
+                    $('.userQRCodeModalBody').html('');
+                    $('.userQRCodeModalBody').html('<img src="'+ resp.data +'"/>');
+                  
+                    $('#userQRCodeModal').modal('show');
+                            
+                   
+                }
+            });
+          });
+		</script>

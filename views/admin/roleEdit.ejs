@@ -1,0 +1,81 @@
+
+<div >
+    <div class="form-group">
+        <label for="rolename">Role Name:</label>
+        <input type="text" class="form-control" id="role_name" value="<%= role?role.role_name:'' %>" placeholder="Enter Role Name">
+        <input type="hidden" class="form-control" id="role_id" value="<%= role?role.role_id:'' %>" >
+    </div>
+    <div class="form-group ">
+      
+            <label for="permission">Permission:</label> <br>
+        <%
+            var sub_start = false;
+            var last = menu.length - 1;
+            
+            for(var i=0; i < menu.length; i++ ){
+                if(menu[i].parent_id == 0){
+                    if(sub_start){
+                    %>
+                    </ul>
+                    <% sub_start = false;
+                    }
+                    if(menu[i].is_sub == 0){
+                         %>
+                        <input <%= role && role.permission.indexOf(menu[i].menu_id.toString()) > -1 ? "checked=true" : "" %> type="checkbox" value="<%= menu[i].menu_id%>" class="menuPermission parent <%= menu[i].menu_id%>_Parent" data-id="<%= menu[i].menu_id%>" />
+                        <label class="menuTitle"><%= menu[i].menu_name%></label>  
+                        <ul>
+                <%  } else{  
+                %>
+                <input <%= role &&  role.permission.indexOf(menu[i].menu_id.toString()) > -1 ? "checked=true" : "" %> type="checkbox" value="<%= menu[i].menu_id%>" class="menuPermission parent <%= menu[i].menu_id%>_Parent" data-id="<%= menu[i].menu_id%>" />
+                <label class="menuTitle"><%= menu[i].menu_name%></label>      <br>              
+
+                    <% 
+                    }
+                } else{ 
+                    if(menu[i].sub_number > 0){
+                        sub_start = true;
+                    } %>
+                    <input <%= role &&  role.permission.indexOf(menu[i].menu_id.toString()) > -1 ? "checked=true" : "" %> type="checkbox" value="<%= menu[i].menu_id%>" class="menuPermission sub sub_of_<%= menu[i].parent_id %>" data-parent = "<%= menu[i].parent_id%>" /> <%= menu[i].menu_name%> <br>
+                    <%  if(i == last){
+                    %>
+                    </ul> 
+                    <% }
+                }
+            }
+            %>
+    </div>
+</div>
+
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<button type="button" class="btn btn-primary" id="saveroleBtn">Save</button>
+<script type="text/javascript">
+
+
+    $(document).on('change', '.sub', function() {
+    
+        var parentClass = $(this).attr('data-parent')+ '_Parent';
+        var subClass = '.sub_of_'+$(this).attr('data-parent');
+        if(this.checked) {
+        // checkbox is checked
+            $("."+parentClass ).prop('checked', true);
+        }else{
+            var arr = []; 
+            $('input:checkbox'+subClass).each(function () {
+                arr.push(  (this.checked ? $(this).val() : null));
+            });
+            if(arr.every(element => element === null)){
+                $("."+parentClass ).prop('checked', false);
+            }
+        }
+    });
+    $(document).on('change', '.parent', function() {
+    
+        var subClass ='.sub_of_'+ $(this).attr('data-id');
+        if(this.checked) {
+            // checkbox is checked
+            $(subClass ).prop('checked', true);
+        }else{
+            $(subClass ).prop('checked', false);
+        }
+    });
+</script>

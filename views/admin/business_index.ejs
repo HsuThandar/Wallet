@@ -1,0 +1,79 @@
+<div class="container">
+        <div class="card">
+                <div class="card-header">Your Business List</div>
+                <div class="card-body">
+                
+                        <div class="table-responsive">
+                                <table id="businessTable" class="table table-striped w-100 d-block d-md-table">
+                                   
+                       <thead>
+                           <th>Merchant ID</th>
+                           <th>Merchant Name</th>
+                           <th>Merchant Domain</th>
+                           <th>Last Updated Date</th>
+                           <th>Status</th>
+                           <th>Details</th>
+                       </thead>
+                       <tbody>
+                           
+                       </tbody>
+                   </table></div>
+                </div> 
+               
+            </div>
+</div>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+                businessTable ="";
+                businessTable = $('#businessTable').dataTable( {
+                "bProcessing": true,
+                "bServerSide": true,				
+                "iDisplayLength": 10,
+                "sAjaxSource": '/admin/business/getAllBusinessList_foreachuser',				
+                //"sPaginationType": "two_button",
+                "aaSorting": [[ 0, "desc" ]],				
+                "aoColumnDefs": [            
+                    {
+                        
+                        "aTargets": [4],
+                        "mData": null,						
+                        "mRender": function (data, type, full) {
+                            var str = '';
+                            
+                            if(data[4] == 0){
+                                str = '<span  class="text-primary" >Active</span>';
+
+                            }else{
+                                str = '<span  class="text-danger" >Deactive</span>';
+                            }
+                          return str;
+                                    
+                        }
+                    },
+                    {
+                        "bSortable": false,
+                        "aTargets": [-1],
+                        "mData": null,						
+                        "mRender": function (data, type, full) {
+                        var str = "<button type='button' class='btndetail btn btnformmpay' data-id='"+data[5]+"'>Show</button>"
+                            return str;
+                                    
+                        }
+                    }
+                   
+        
+                    ]
+        
+                });
+
+                $(document).on("click",".btndetail",function(e) {
+                    e.preventDefault();
+                    
+                    var merchant_id = $(this).attr('data-id');console.log(merchant_id);
+                    
+                    window.location.href = '/admin/business/ownbusiness/'+merchant_id;
+                });
+               
+            });
+        </script>

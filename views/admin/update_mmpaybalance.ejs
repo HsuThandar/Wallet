@@ -1,0 +1,58 @@
+
+
+<form id="MMpayBalanceUpdateForm" method="POST" action="/admin/mmpaywallet/redirecttoRelevantBank">
+        
+        
+        <div class="row form-group" >
+            <label class="col-lg-5 col-md-5 col-sm-12  ">Login Account:</label>
+            <input type="text" readonly id="loginaccount" name="loginaccount" class="col-lg-4 col-md-4 col-sm-12 form-control" value="<%=mmpaybalance.loginaccount%>"  />
+        
+        </div>
+        <div class="row form-group" >
+            <label class="col-lg-5 col-md-5 col-sm-12  ">Display Name:</label>
+            <input type="text" readonly id="displayname" name="displayname" class="col-lg-4 col-md-4 col-sm-12 form-control" value="<%= mmpaybalance.displayname%>"  />
+        
+        </div>
+        <div class="row form-group" >
+            <label class="col-lg-5 col-md-5 col-sm-12">Balance:</label>
+            <input type="text" readonly id="balance" name="balance" class="col-lg-4 col-md-4 col-sm-12 form-control" value="<%= mmpaybalance.balance%>"  />&nbsp;(kyats)
+          
+        
+        </div>
+        <br>
+        <div class="row" id="accordion" style="padding: 1em 1em 2em 1em;
+        border: 0.1em solid #0C5F8F;   background: #f5f6f7;    line-height: 2.7em;     margin: 1em 1em 1em 1em;">
+           
+            <div class="col-12" >
+                
+                    <div class='col-12 row'>
+                      <label>Add from Bank Account:</label>
+                    
+                            <select id="service_id" name="service_id" required class="form-control col-10" >
+                                <option  value="">Choose Your Preferred Payment Type:</option>
+                                <% if(bank_service){
+                                    for(var i=0;i<bank_service.length;i++){  
+                                %>
+                                    <option value="<%= bank_service[i].service_id %>" ><%= bank_service[i].service_name %>(<%= bank_service[i].account_number%>)</option>
+                                <% }  }%>
+                                
+                            </select>
+                    </div>
+                    <label> <a href="/admin/banking/addnewlinkedbankaccount">(Add your new bank account information)</a></label>
+            </div><br>
+           
+            
+        </div>
+        <div class="form-group text-right">
+            	<button class="btn btn-secondary" data-dismiss="modal">	Skip</button>
+				<button type="submit" class="btn btn-primary  ">Submit</button>
+        </div>
+        
+        
+        
+    </form>
+
+    <script type="text/javascript">
+      
+            
+        </script>

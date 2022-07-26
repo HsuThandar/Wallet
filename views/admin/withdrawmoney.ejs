@@ -1,0 +1,182 @@
+<% include user_setting.ejs %>
+<div class="col-sm-12 col-lg-9 col-md-9">
+        <div class="card">
+            <div class="card-header">Withdraw Money</div>
+            <div class="card-body">
+                <form id="paymentForm" action="/admin/banking/withdrawByService" method="POST">
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-md-3 col-sm-12">From</label>
+                        <div class="col-lg-9 col-md-9 col-sm-12">
+                            <input type="text" name="from_loginaccount" readonly class="col-5" value="<%= settings.user.loginaccount %>" /> 
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-md-3 col-sm-12">Amount</label>
+                        <div class="col-lg-9 col-md-9 col-sm-12">
+                            <input type="number" required  class="col-5" id="amount" name="amount" value="" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-md-3 col-sm-12">Commissions Fee:</label>
+                        <div class="col-lg-9 col-md-9 col-sm-12">
+                            <input type="text" readonly  class="col-5"  name="commissions_fee" value="<%= commissions_fee %>%" />
+                        </div>
+                    </div>
+                    <div class="row form-group" >
+                        <label class="col-lg-3 col-md-3 col-sm-12">Total Amount:</label>
+                        <div class="col-lg-9 col-md-9 col-sm-12">
+                            <input type="number" readonly  class="col-5" id="closing_amount"  name="closing_amount" value="" />
+                            <input type="hidden" readonly id="type" name="type"  />
+                        </div>
+                      
+                
+                    </div>
+                    <!-- service name -->
+                    <div class="row" id="accordion" style="padding: 1em 1em 1em 1em;
+                    border: 0.1em solid #0C5F8F;    background: #f5f6f7;    line-height: 2.7em;    ">
+                        <label class=" ">Choose Your Preferred Payment Type:</label>
+                        
+                        <div class="col-12" >
+                            
+                                <a class="collapse_header btn col-12" data-toggle="collapse"    href="#DirectBilling_collapase_mobile_operator" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    <div class='col-12 row'>
+                                        <div class="text-left col-11"><span class=""> Pay with Direct Your Mobile Operator </span></div>    
+                                        <div class="text-right col-1"><i class="fa fa-chevron-down " aria-hidden="true"></i></div>    
+                                    </div>
+                                </a>     
+                            <div class="collapse " id="DirectBilling_collapase_mobile_operator" data-parent="#accordion">
+                                    <div class="card card-body " >
+                                            <div class="form-group row">
+                                                <label class=" col-4">Operator Name:</label>
+                                                <select id="operator_name" name="operator_name" class="form-control col-7" >
+                                                    <% if(service.operator){
+                                                        for(var i=0;i<service.operator.length;i++){
+                                                        %>
+                                                        <option value="<%= service.operator[i].service_id%>"><%= service.operator[i].service_name%></option>
+                                                        <%}
+                                                    }%>
+                                                   
+                                                </select>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class=" col-4">Phone Number:</label>
+                                                <input type="text" id="phoneno" name="phoneno" class="phoneno form-control col-7" value="+9509250241663" /> 
+                                            </div>
+                                            <div class="">
+                                                <button type="button" data-type="mobile_operator" class="col-3 float-right btn btnformmpay submitButton ">Check Out</button>
+                                            </div>
+                                        
+                                    </div>
+                                </div> 
+                        </div><br>
+                        <div class="col-12" >
+                            
+                                <a class="collapse_header btn col-12" data-toggle="collapse"   href="#DirectBilling_collapase_online_banking" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    <div class='col-12 row'>
+                                        <div class="text-left col-11"><span class=""> Pay with Direct Your Online Banking </span></div>    
+                                        <div class="text-right col-1"><i class="fa fa-chevron-down " aria-hidden="true"></i></div>    
+                                    </div>
+                                </a>     
+                            <div class="collapse " id="DirectBilling_collapase_online_banking" data-parent="#accordion">
+                                    <div class="card card-body ">
+                                            <div class="form-group row">
+                                                    <label class=" col-4">Account Number:</label>
+                                                    <input type="text" id="bankaccountno" name="bankaccountno" class="bankaccountno form-control col-7" value="" /> 
+                                                </div>
+                                            <div class="form-group row">
+                                                <label class=" col-4">Bank Name:</label>
+                                                <select id="bank_name" name="bank_name" class="form-control col-7" >
+                                                        <% if(service.banking){
+                                                            for(var i=0;i<service.banking.length;i++){
+                                                            %>
+                                                            <option value="<%= service.banking[i].service_id%>"><%= service.banking[i].service_name%></option>
+                                                            <%}
+                                                        }%>
+                                                </select>
+                                            </div>
+                                            <div class="">
+                                                <button type="button" data-type="online_banking" class="col-3 float-right btn btnformmpay submitButton ">Check Out</button>
+                                            </div>
+                
+                                        
+                                    </div>
+                                </div> 
+                        </div><br>
+                        <div class="col-12" >
+                            
+                                <a class="collapse_header btn col-12" data-toggle="collapse" href="#DirectBilling_collapase_e_wallet" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    <div class='col-12 row'>
+                                        <div class="text-left col-11"><span class=""> Pay with Your E-wallet </span></div>    
+                                        <div class="text-right col-1"><i class="fa fa-chevron-down " aria-hidden="true"></i></div>    
+                                    </div>
+                                </a>     
+                            <div class="collapse " id="DirectBilling_collapase_e_wallet" data-parent="#accordion">
+                                    <div class="card card-body ">
+                                            <div class="form-group row">
+                                                    <label class=" col-4">Account Number:</label>
+                                                    <input type="text" id="ewalletno" name="ewalletno" class="ewalletno form-control col-7" value="" /> 
+                                                </div>
+                                            <div class="form-group row">
+                                                <label class=" col-4">E-wallet:</label>
+                                                <select id="e_wallet_name" name="e_wallet_name" class="form-control col-7" >
+                                                        <% if(service.ewallet){
+                                                            for(var i=0;i<service.ewallet.length;i++){
+                                                            %>
+                                                            <option value="<%= service.ewallet[i].service_id%>"><%= service.ewallet[i].service_name%></option>
+                                                            <%}
+                                                        }%>
+                                                </select>
+                                            </div>
+                                            <div class="">
+                                                <button type="button" data-type="e_wallet" class="col-3 float-right btn btnformmpay submitButton ">Check Out</button>
+                                            </div>
+                
+                                        
+                                    </div>
+                                </div> 
+                        </div><br>
+                        
+                    </div>
+                    <!-- service end -->
+                   
+                </form>
+            </div> 
+           
+        </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+       
+        $('#amount').keyup(function(e){
+            e.preventDefault();
+            var result = parseInt($(this).val()) * 0.1;
+            $('#closing_amount').val(parseInt($(this).val()) + parseInt(result));
+        });
+ 
+      
+    $('.submitButton').click(function(e){
+        e.preventDefault();
+        var type = $(this).attr('data-type');
+        let url = '';
+        if(type == 'e_wallet'){
+            $('#type').val('e_wallet');
+       
+        }else if(type == 'mobile_operator'){
+            $('#type').val('mobile_operator');
+           
+        
+        }else if(type == 'online_banking'){
+            $('#type').val('online_banking');
+        
+        
+        }
+        console.log(type);
+        //$("#paymentForm").attr("action", url);
+        $("#paymentForm")[0].submit();
+    });
+});
+  
+    
+        
+    </script>
+    

@@ -1,0 +1,74 @@
+<% include user_setting.ejs %>
+<div class="col-sm-12 col-lg-9 col-md-9">
+        <div class="card">
+            <div class="card-header">Bank Information</div>
+            <div class="card-body">
+              
+                        (<%= noofbank %>) linked account <br>
+                        <a href="/admin/banking/addnewlinkedbankaccount">Add your new bank account information</a>
+                   <br>
+                   <div class="table-responsive">
+                    <table id="linkedaccount_table" class="table table-striped w-100 d-block d-md-table">
+                         
+                            <thead>
+                                <th>ID</th>
+                                <th>Bank Name</th>
+                                <th>Bank Account Name</th>
+                                <th>Bank Account Number</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table></div>
+            </div> 
+           
+        </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        linkedaccount_table ="";
+        linkedaccount_table = $('#linkedaccount_table').dataTable( {
+            "bProcessing": true,
+            "bServerSide": true,				
+            "iDisplayLength": 10,
+            "sAjaxSource": '/admin/banking/getAllLinkedAccountList_forenduser',				
+            //"sPaginationType": "two_button",
+            "aaSorting": [[ 1, "desc" ]],				
+            "aoColumnDefs": [            
+                {
+                    "bSortable": false,
+                    "aTargets": [-1],
+                    "mData": null,						
+                    "mRender": function (data, type, full) {
+                        var str = '';
+                        str = '<a href="/admin/banking/edit_linkedbankaccount/'+data[0]+'" class="btn btn-sm btnformmpay"><i class="fa fa-edit"></i></a>'
+                        return str;
+                    }
+                },
+                {
+                        
+                        "aTargets": [4],
+                        "mData": null,						
+                        "mRender": function (data, type, full) {
+                            var str = '';
+                            
+                            if(data[4] == 0){
+                                str = '<span  class="text-primary" >Active</span>';
+
+                            }else{
+                                str = '<span  class="text-danger" >Deactive</span>';
+                            }
+                          return str;
+                                    
+                        }
+                    },
+                ]
+    
+            });
+        });
+    
+        
+    </script>
+    

@@ -1,0 +1,176 @@
+
+<button type="button" class="btn btn-primary float-right " id="add_newUser">Add New user</button>
+
+<!-- Modal -->
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="userModalLabel">Admin Form </h5>
+        </div>
+        <div class="modal-body adminFormBody">
+               
+                       
+        </div>
+        <div class="modal-footer d-none">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- admin delete model start  -->
+<div class="modal" id="deleteuserModal"  role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" >Are you sure to delete this user?</h5>
+              </div>
+              <div class="modal-footer">
+                  <button class="btn btn-sm" data-dismiss="modal">
+                      <i class="icon-remove"></i>
+                      Cancel
+                  </button>
+
+                  <button class="btn btn-sm btn-danger" id="sureToDeleteuserBtn">
+                      <i class="icon-ok"></i>
+                      Delete
+                  </button>
+              </div>					
+          </div>
+        </div>
+      </div>	
+
+<div class="page-body">
+
+
+<div class="">
+        <table id="userListTable" class="table table-striped table-bordered table-hover" style="width:100%">
+                <thead>
+                    <tr>
+                        
+                        <th> User ID </th>
+                        <th> Login Name </th>
+                        <th> Display Name </th>
+                        <th> Role </th>
+                        <th> Action </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+</div>
+</div>
+<script type="text/javascript">
+    userTable ="";
+    userTable = $('#userListTable').dataTable( {
+    "bProcessing": true,
+    "bServerSide": true,				
+    "iDisplayLength": 10,
+    "sAjaxSource": '/admin/user/getAlluserList',				
+    //"sPaginationType": "two_button",
+    "aaSorting": [[ 0, "desc" ]],				
+    "aoColumnDefs": [            
+        {
+            "bSortable": false,
+            "aTargets": [-1],
+            "mData": null,						
+            "mRender": function (data, type, full) {
+                var desc = data[1];
+                var classname = '';
+                if (data[1] == 'superadmin'){
+                    classname = 'disabled';
+                }
+                var editpart = ' <a  class="btn btn-sm btnformmpay EdituserBtn '+ classname+' " data-id='+data[0]+' data-email = "'+desc+'"> <i class="fa fa-edit"></i> </a>';
+               
+                var deletepart = ' <a  class="btn btn-sm btn-danger '+ classname+' DeleteuserBtn" data-id='+data[0]+'> <i class="fa fa-trash"></i> </a>';
+                var permission = '';
+                return editpart + deletepart + permission;
+                        
+            }
+        }
+        ]
+
+    });
+   
+    $(document).on('click', "#saveuserBtn", function(e) {  
+        e.preventDefault();
+
+
+        if(($('#admin_password2').val() ==  $('#admin_password').val()) && $('#admin_name').val() && $('#admin_email').val() &&  $('#admin_password').val()){
+            var obj = {
+             
+                admin_name : $('#admin_name').val(),
+                admin_email : $('#admin_email').val(),
+                admin_password : $('#admin_password').val(),
+                old_admin_password : $('#old_admin_password').val(),
+                role_id : $('#role_id').val()
+            };
+            $.post('/admin/user/saveuser',obj,function(resp){
+                if(resp.status == 500){
+                    myCustomAlert(resp.text);
+                }else{
+                    $('#userModal').modal('hide');
+                    $('#userListTable').DataTable().ajax.reload();
+                }
+            });
+        }else{
+            myCustomAlert(" All fields must be filled.<br> Password and confirm password must match.");
+        }
+       
+    });
+            
+    $(document).on('click', "#add_newUser", function(e) {  
+        $.post('/admin/user/getAdminProfilePageByID',function(result){
+            $('.adminFormBody').html('');
+                $('.adminFormBody').html(result);
+                $('#userModal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+        });
+    });
+    $(document).on('click', ".EdituserBtn", function(e) {  
+        
+        e.preventDefault();
+      
+        $.post('/admin/user/getAdminProfilePageByID',function(result){
+            if(result.status == 500){
+                myCustomAlert("Error");
+            }else{
+                $('.adminFormBody').html('');
+                $('.adminFormBody').html(result);
+                $('#userModal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }
+        });
+        
+    }); 
+
+
+    
+$(document).on('click', ".DeleteuserBtn", function(e) {  
+e.preventDefault();
+$('#deleteuserModal').modal({
+    backdrop: 'static',
+    keyboard: false
+});
+
+$("#sureToDeleteuserBtn").click(function(){						
+    $.post("/admin/user/deleteuser", function (data) {	
+        if(data.status == 200)
+        {
+            $('#deleteuserModal').modal("hide");
+            $('#userListTable').DataTable().ajax.reload();
+        }else{
+            myCustomAlert(data.text);
+        }							
+    });
+});
+}); 
+
+
+</script>

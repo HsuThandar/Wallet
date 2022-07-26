@@ -1,0 +1,43 @@
+
+  <% include user_setting.ejs %>
+    <div class="col-sm-12 col-lg-9 col-md-9">
+            <div class="card">
+                <div class="card-header">Account Details </div>
+                <div class="card-body">
+                        <div class="table-responsive">
+                                <table id="" class="table table-striped w-100 d-block d-md-table">
+                      
+                        
+                            <tbody>
+                                <tr>
+                                    <td class="td-label">Display Name</td>
+                                    <td><%= admin?admin.displayname:'' %></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-label">Login Account</td>
+                                    <td><%= admin?admin.loginaccount:'' %></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-label">Opened Date</td>
+                                    <td><%= admin?admin.signup_date:'' %></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-label">Last Updated Date</td>
+                                    <td><%= admin?admin.last_updateddate:'' %></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-label">Last Login</td>
+                                    <td><%= admin?admin.last_login:'' %></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-label">Current Balance</td>
+                                    <td><%= balance %> kyats</td>
+                                </tr>
+                                
+                            </tbody>
+                        </table></div>
+                    
+            </div> 
+            
+        </div>
+    </div>

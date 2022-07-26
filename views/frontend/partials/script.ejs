@@ -1,0 +1,52 @@
+
+	
+<!-- Modal -->
+<div class="modal fade alertModal" style="z-index: 2000;" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+                <span class="text-danger">Alert!</span>
+            </div>
+            <div class="modal-body text-center alertModalBody">
+             
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary alertModal_Comfirm ">Ok</button>
+            </div>
+          </div>
+        </div>
+      </div>
+		<script type="text/javascript">
+        
+        //$(".thisclass:not(#thisid)")
+    
+				function myCustomAlert(text){
+                    $('.alertModalBody').html('');
+                    $('.alertModalBody').html(text);
+                    
+                    $('#alertModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    $('.alertModal_Comfirm').click(function(){
+                        $('#alertModal').modal('hide');
+                    
+                        
+                    }); 
+                }
+             
+    
+/* // Initialize and add the map
+function initMap() {
+  // The location of Uluru
+  var uluru = {lat: 16.9143488, lng: 96.15269850000001};
+  // The map, centered at Uluru
+  var map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 4, center: uluru});
+  // The marker, positioned at Uluru
+  var marker = new google.maps.Marker({position: uluru, map: map});
+} */
+    </script><!-- 
+		<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhLRNZswHAYqXPI7ibEnuBwvenRE23f6Y&callback=initMap">
+    </script> -->

@@ -1,0 +1,26 @@
+
+<div class="justify-content-center col-lg-10" >
+    <div class="form-group row ">
+        <label for="username" class="col-5 userlabel">Display Name:</label>
+        <input type="text" class=" col-6 userfield form-control" id="displayname" value="<%= admin?admin.displayname:'' %>" placeholder="Enter Displayname">
+    </div>
+    <div class="form-group row">
+        <label for="email"  class="col-5 userlabel">Login Name:</label>
+        <input type="text" readonly class=" col-6 userfield form-control" id="loginaccount" value="<%= admin?admin.loginaccount:'' %>" placeholder="Enter Loginname">
+    </div>
+    <div class="form-group row">
+        <label for="password"  class="col-5 userlabel">Password:</label>
+        <input type="password" class=" col-6 userfield form-control" id="password" value="<%= admin?admin.password:'' %>" placeholder="Enter Password">
+        <input type="hidden" class=" col-6  form-control" id="old_password" value="<%= admin?admin.password:'' %>" >
+    </div>
+    <div class="form-group row">
+            <label for="password2"  class="col-5 userlabel ">Confirm Password:</label>
+            <input type="password" class="col-6 userfield form-control" id="password2" value="<%= admin?admin.password:'' %>" placeholder="Enter Password">
+        </div>
+ 
+    <div class="col offset-md-4">
+        <button type="button" class=" btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="saveuserBtn">Save</button>
+    </div>
+   
+</div>

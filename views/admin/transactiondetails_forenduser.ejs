@@ -1,0 +1,41 @@
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <td class="td-label">Transaction ID</td>
+            <td><%= transaction.mm_tran_log_v_id %></td>
+        </tr>
+        <tr>
+            <td class="td-label">Date</td>
+            <td><%= transaction.mm_tran_date %></td>
+        </tr>
+        <tr>
+            <td class="td-label">Transaction Status</td>
+            <td><%= transaction.mm_tran_status %></td>
+        </tr>
+        <tr>
+            <td class="td-label">Transaction Type</td>
+            <td><%= transaction.mm_tran_type %></td>
+        </tr>
+        <tr>
+            <td class="td-label">Name</td>
+            <td><%= transaction.r_subject %></td>
+        </tr>
+        <tr>
+            <td class="td-label">Service/Merchant</td>
+            <td><%= transaction.merchant_name ? transaction.merchant_name : transaction.service_name %></td>
+        </tr>
+        
+        <tr>
+            <td class="td-label">Opened Balance</td>
+            <td><%= transaction.old_balance %></td>
+        </tr>
+        <tr>
+            <td class="td-label">Transaction Amount</td>
+            <td><%= transaction.amount %></td>
+        </tr>
+        <tr>
+            <td class="td-label">Closed Balance</td>
+            <td><%= transaction.new_balance %></td>
+        </tr>
+    </tbody>
+</table>

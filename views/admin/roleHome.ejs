@@ -1,0 +1,171 @@
+
+    <button type="button" class="btn btn-primary float-right " id="add_newrole">Add New role</button>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="roleModal" tabindex="-1" role="dialog" aria-labelledby="roleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="roleModalLabel">Role Form </h5>
+            </div>
+            <div class="modal-body roleBody">
+                   
+                           
+            </div>
+            <div class="modal-footer d-none">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- admin delete model start  -->
+    <div class="modal" id="deleteroleModal"  role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" >Are you sure to delete this role?</h5>
+                  </div>
+                  <div class="modal-footer">
+                      <button class="btn btn-sm" data-dismiss="modal">
+                          <i class="icon-remove"></i>
+                          Cancel
+                      </button>
+    
+                      <button class="btn btn-sm btn-danger" id="sureToDeleteroleBtn">
+                          <i class="icon-ok"></i>
+                          Delete
+                      </button>
+                  </div>					
+              </div>
+            </div>
+          </div>	
+    
+    <div class="page-body">
+    
+    
+    <div class="">
+            <table id="roleListTable" class="table table-striped table-bordered table-hover" style="width:100%">
+                    <thead>
+                        <tr>
+                            
+                            <th> Role ID </th>
+                            <th> Role name </th>
+                            <th> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+    </div>
+    </div>
+    <script type="text/javascript">
+        roleTable ="";
+        roleTable = $('#roleListTable').dataTable( {
+        "bProcessing": true,
+        "bServerSide": true,				
+        "iDisplayLength": 10,
+        "sAjaxSource": '/admin/user/getAllroleList',				
+        //"sPaginationType": "two_button",
+        "aaSorting": [[ 0, "desc" ]],				
+        "aoColumnDefs": [            
+            {
+                "bSortable": false,
+                "aTargets": [-1],
+                "mData": null,						
+                "mRender": function (data, type, full) {
+                    var desc = data[1];
+                    var editpart = ' <a  class="btn btn-sm btnformmpay EditroleBtn" data-id='+data[0]+'> <i class="fa fa-edit"></i> </a>';
+                    var deletepart = ' <a  class="btn btn-sm btn-danger DeleteroleBtn" data-id='+data[0]+'> <i class="fa fa-trash"></i> </a>';
+                    var permission = '';
+                    return editpart + deletepart + permission;
+                            
+                }
+            }
+            ]
+    
+        });
+    
+        $(document).on('click', "#saveroleBtn", function(e) {  
+            e.preventDefault();
+            var permission=[]; 
+            $('input:checkbox.menuPermission').each(function () {
+                if(this.checked){
+                    permission.push($(this).val());
+                }
+            });
+            if($('#role_name').val()){
+                var obj = {
+                    role_name : $('#role_name').val(),
+                    role_id : $('#role_id').val(),
+                    permission : permission?permission.join(','):null
+                };
+                $.post('/admin/user/saverole',obj,function(resp){
+                    if(resp.status == 500){
+                        myCustomAlert(resp.text);
+                       
+                    }else{
+                        $('#roleModal').modal('hide');
+                        $('#roleListTable').DataTable().ajax.reload();
+                    }
+                });
+            }else{
+                myCustomAlert("Role name is required.");
+            }
+           
+        });
+                
+        $(document).on('click', "#add_newrole", function(e) {  
+            $.post('/admin/user/getRoleBodyPageByID',function(result){
+                    $('.roleBody').html('');
+                    $('.roleBody').html(result);
+                    $('#roleModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+            });
+        });
+        $(document).on('click', ".EditroleBtn", function(e) {  
+            
+            e.preventDefault();
+            var role_id = $(this).attr('data-id');
+            $.post('/admin/user/getRoleBodyPageByID',{role_id:role_id},function(result){
+                if(result.status == 500){
+                    myCustomAlert("Error 500.");
+                }else{
+                    $('.roleBody').html('');
+                    $('.roleBody').html(result);
+                    $('#roleModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                }
+            });
+            
+        }); 
+    
+    
+        
+    $(document).on('click', ".DeleteroleBtn", function(e) {  
+    e.preventDefault();
+    $('#deleteroleModal').modal({
+        backdrop: 'static',
+        keyboard: false
+    });
+    var role_id =$(this).attr('data-id');
+    $("#sureToDeleteroleBtn").click(function(){						
+        $.post("/admin/user/deleterole", {role_id: role_id}, function (data) {	
+            if(data.status == 200)
+            {
+                $('#deleteroleModal').modal("hide");
+                $('#roleListTable').DataTable().ajax.reload();
+            }else{
+                myCustomAlert(data.text);
+            }							
+        });
+    });
+    }); 
+    
+    
+    </script>

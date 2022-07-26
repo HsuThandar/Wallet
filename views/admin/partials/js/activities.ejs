@@ -1,0 +1,53 @@
+<script type="text/javascript">
+$(document).ready(function(){
+        recectActivityTable ="";
+        recectActivityTable = $('#recectActivityTable').dataTable( {
+        "bProcessing": true,
+        "bServerSide": true,				
+        "iDisplayLength": 10,
+        "sAjaxSource": '/admin/transactionlog/getAlltransactionlogList_foreachuser',				
+        //"sPaginationType": "two_button",
+        "fnServerParams": function ( aoData ) {
+            aoData.push( { "name": "from_date", "value": $('#from-date').val() },
+            {"name": "to_date", "value": $('#to-date').val()} );
+       
+        }, 
+        "aaSorting": [[ 1, "desc" ]],				
+        "aoColumnDefs": [            
+            {
+                "bSortable": false,
+                "aTargets": [-1],
+                "mData": null,						
+                "mRender": function (data, type, full) {
+                var str = "<button type='button' class='btntransactiondetail_enduser btn btnformmpay' data-id='"+data[4]+"'>Show</button>"
+                    return str;
+                            
+                }
+            }/* ,{
+                "bSortable": false,
+                "aTargets": [3],
+                "mData": null,						
+                "mRender": function (data, type, full) {
+                    var str = "";
+                    if(data[3] == 'Completed'){
+                        str = "<span style='color:blue;'>Completed</span>";
+                    }else{
+                        str = "<span style='color:red;'>Failed</span>";
+                    }
+                
+                    return str;
+                            
+                }
+            } */
+
+            ]
+
+        });
+
+        $('.filter').change(function (e) {
+            recectActivityTable.fnDraw();
+        });
+    });
+
+    
+</script>

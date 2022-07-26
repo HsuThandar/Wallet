@@ -1,0 +1,128 @@
+<% if(merchant){%> 
+
+     <% include business_settings.ejs %>
+        <div class="col-sm-12 col-lg-9 col-md-9">
+                <div class="table-responsive">
+                        <table class="table table-striped w-100 d-block d-md-table">
+            
+                <tbody>
+                    <tr>
+                        <td class="td-label">Redirect Link to mmPay</td>
+                        <td><%= callback_link %></td>
+                    </tr>
+                    <tr>
+                        <td class="td-label">Merchant Site ID</td>
+                        <td><%= merchant.merchant_v_id %></td>
+                    </tr>
+                    <tr>
+                        <td class="td-label">Registered Date</td>
+                        <td><%= merchant.registered_date %></td>
+                    </tr>
+                    <tr>
+                        <td class="td-label">Merchant Site Name</td>
+                        <td><%= merchant.merchant_name %></td>
+                    </tr>
+                    <tr>
+                        <td class="td-label">Merchant Site URL</td>
+                        <td><%= merchant.merchant_domainurl %></td>
+                    </tr>
+                    
+                </tbody>
+            </table></div>
+           
+            <div class="form-group row ">
+                <label for="" class="col-3 text-right userlabel">Contact No:</label>
+                <input type="text"  class=" col-6 userfield form-control" id="merchant_contactno" value="<%= merchant.merchant_contactno %>" placeholder="Mercant Contact No">
+                <input type="hidden" readonly class=" col-6 userfield form-control" id="merchant_v_id" value="<%= merchant.merchant_v_id %>" placeholder="Mercant Name">
+
+            </div>
+            <div class="form-group row ">
+                <label for="" class="col-3 text-right userlabel">Address:</label>
+                <input type="text" required class=" col-6 userfield form-control" id="merchant_address" value="<%= merchant.merchant_address %>" placeholder="Mercant Address">
+            </div>
+            <div class="form-group row ">
+                <label for="" class="col-3 text-right userlabel">Callback URL:</label>
+                <input type="text"  class=" col-6 userfield form-control" id="m_callback_url" value="<%= merchant.m_callback_url %>" placeholder="Mercant Callback URL">
+            </div>
+            <div class="form-group row ">
+                <label for="" class="col-3 text-right userlabel">Redirect URL:</label>
+                <input type="text"  class=" col-6 userfield form-control" id="m_redirect_url" value="<%= merchant.m_redirect_url %>" placeholder="Mercant Callback URL">
+            </div>
+            <div class="form-group row ">
+                <label for="" class="col-3 text-right userlabel">Mode:</label>
+                <select id="merchant_mode" name="merchant_mode" class=" col-6 userfield form-control">
+                    <option value="Live" <%= merchant.merchant_mode == 'Live' ? "selected" : "" %>>Live</option>
+                    <option value="Test" <%= merchant.merchant_mode == 'Test' ? "selected" : "" %>>Test</option>
+                </select>
+            </div>
+            <hr>
+            <div class="col offset-md-4">
+                <button type="button" class=" btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="updateBusinessBtn">Update</button>
+                <% if(merchant.is_deleted == 0){ %>
+                <button type="button" class="btn btn-danger" id="deactiveBusinessBtn">Deactive</button>
+            <% }else{ %>
+                <button type="button" class="btn btnformmpay" id="activeBusinessBtn">Active</button>
+            <% } %>
+            </div>
+</div>
+<%}%>
+
+<script type="text/javascript">
+    $('#deactiveBusinessBtn').click(function(e){
+        e.preventDefault();
+        $.post('/admin/business/deactivemerchant',{ merchant_v_id : $('#merchant_v_id').val()},function(resp){
+                if(resp.status == 500){
+                    myCustomAlert(resp.text);
+                }else{
+                
+                    
+                    window.location.reload();
+                   
+                }
+            });
+    });
+    $('#activeBusinessBtn').click(function(e){
+        e.preventDefault();
+        $.post('/admin/business/activemerchant',{ merchant_v_id : $('#merchant_v_id').val()},function(resp){
+                if(resp.status == 500){
+                    myCustomAlert(resp.text);
+                }else{
+                
+                    
+                    window.location.reload();
+                   
+                }
+            });
+    });
+    $('#updateBusinessBtn').click(function(e){
+        e.preventDefault();
+        // console.log("here");
+        if($.trim($('#merchant_address').val()).length > 0){
+            var obj = {
+                    merchant_address : $('#merchant_address').val(),
+                    merchant_contactno : $('#merchant_contactno').val(),
+                  
+                    m_callback_url : $('#m_callback_url').val(),
+                    m_redirect_url : $('#m_redirect_url').val(),
+                    merchant_v_id : $('#merchant_v_id').val(),
+                    merchant_mode : $('#merchant_mode').val(),
+                   
+            }
+            $.post('/admin/user/savemerchant',obj,function(resp){
+                if(resp.status == 500){
+                    myCustomAlert(resp.text);
+                }else{
+                
+                    
+                    window.location.reload();
+                   
+                }
+            });
+        }else{
+            console.log("here");
+            myCustomAlert(" All fields must be filled.");
+        }
+        
+    });
+</script>

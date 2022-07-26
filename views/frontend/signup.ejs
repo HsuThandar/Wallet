@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+			<% include ./partials/head %>
+	</head>
+
+	<body>
+		
+				<style>
+						.usersite_header{
+							margin-top: 1em;
+							margin-bottom: 1em;
+						}
+						.usersite-brand{
+							font-size: 1.5em;
+							color: #0C5F8F;
+						}
+						.menu_atag{
+							text-align: center;
+							margin-right: 2em;
+						}
+					</style>
+					<div class="container usersite_header">
+						<div class="row col">
+								
+								<div class=" col-5">
+									<a href="/" class="usersite-brand ">	<i class="fa fa-hand-holding-usd"><%= domainname %></i>
+								</a></div>
+							
+							<div class="usersite_headerbutton text-right col-7" >
+								
+								<a class="btn btn-secondary site-btn " href="/admin/login" id="btnlogin">Login</a>
+								<a class="btn btnformmpay site-btn d-none" href="/admin/signup" id="btnsignup">SignUp</a>
+							</div>
+						</div>
+						
+					</div>
+					<div class="d-none">
+						<button  onclick="smsLogin();">Login via SMS</button>
+						<div>OR</div>
+						
+						<button onclick="emailLogin();">Login via Email</button>
+							</div>
+			<div class="container">
+				<div class="row justify-content-center " >
+					<div class="card " style="width: 34em;     box-shadow: 1px 5px 6px 1px #eae0e0;">
+							<div class="card-header" style="    font-size: 1.2em;
+							color: #0C5F8F;
+							font-weight: bold;">Sign Up For Free</div>
+							<div class="card-body">
+								
+									
+								
+									<form class="form " id="signupform" action="/admin/account_signup" method="POST">
+                                        <% if(error){%>
+                                            <div class="alert alert-warning" role="alert">
+                                                <%= error %>
+                                            </div>
+                                        <%}%>
+                                        <div class="form-group row justify-content-center" >
+                                            
+                                            <input type="text" required name="displayname" class="form-control col-7  form-control-lg" id="displayname" placeholder="Legal Name"/>
+                                        </div>
+                                        <div class="form-group row justify-content-center">
+                                              
+                                                <input type="text" required name="loginaccount" class="form-control col-7  form-control-lg" id="loginaccount" placeholder="Your Email or Phone number"/>
+                                            </div>
+                                        <div class="form-group row justify-content-center">
+                                           
+                                            <input type="password" required name="password" class="form-control col-7  form-control-lg" id="password" placeholder="Your Password"/>
+                                        </div>
+                                        <div class="form-group row justify-content-center">
+                                         
+                                            <input type="password" required name="password2" class="form-control col-7  form-control-lg" id="password2" placeholder="Your Confirm Password"/>
+										</div>
+										
+                                        
+                                        <div class="form-group row justify-content-center d-none">
+											
+											<div class="g-recaptcha" data-sitekey="6LcKq8QUAAAAAK7oTQ-kxLoJTZ7bU_b5YueYMdgK"></div>
+                                        </div>
+											<div class="form-group row justify-content-center">
+											
+												<button type="submit" class="btn btnformmpay btn-lg">Sign Up</button> 
+											</div>
+											
+												<br>
+											<h4 style="text-align: center;">or</h4>
+											<br>
+												
+												<div class="row ">
+												
+													<div class="col-lg-6 col-md-6 col-xs-12 col-sm-6"> 
+														<a href="/admin/emaillogin/auth/facebook" class="btn btn-md btn-social btn-facebook">
+														<i class="fab fa-facebook-f"></i> Continue with Facebook
+														</a>
+													</div>
+													<div class="col-lg-6 col-md-6 col-xs-12 col-sm-6"> 
+														<a href="/admin/emaillogin/auth/google" class="btn btn-md btn-social btn-gmail">
+															<i class="fab fa-google"></i> Continue with Gmail
+														</a>
+													</div>
+												</div>
+                                    </form>
+							</div>
+							
+						</div>
+				</div>
+		
+					
+			</div>
+		
+
+
+	
+			<% include ./partials/script %>
+			<script src="https://www.google.com/recaptcha/api.js"  ></script>
+			<script src="https://www.google.com/recaptcha/api.js?render=6LexpsQUAAAAACEr40tEPDAqFc43iHoIMnDhXPI6"></script>
+		
+	  
+		  <script type="text/javascript">
+			  $('#signupform').submit(function(e) {
+				
+				
+					if($('#password').val() != $('#password2').val() ){
+						myCustomAlert("Password and Comfirm not match.");
+						return false;
+					}else{
+						return true;
+						/*
+						grecaptcha.ready(function() {
+							grecaptcha.execute('6LexpsQUAAAAACEr40tEPDAqFc43iHoIMnDhXPI6', {action: 'demo'})
+								.then(function(token) {
+									return true;
+								});
+						});*/
+						
+					}
+				});
+		  </script>
+	</body>
+</html>

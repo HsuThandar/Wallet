@@ -1,0 +1,72 @@
+<% include user_setting.ejs %>
+<div class="col-sm-12 col-lg-9 col-md-9">
+        <div class="card">
+            <div class="card-header">Internal Transfer</div>
+            <div class="card-body">
+                <form id="transferForm" action="/admin/banking/internaltransfer" method="POST">
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-md-3 col-sm-12">From</label>
+                        <div class="col-lg-9 col-md-9 col-sm-12">
+                            <input type="text" name="from_loginaccount" readonly class="col-5" value="<%= settings.user.loginaccount %>" /> 
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-md-3 col-sm-12">to</label>
+                        <div class="col-lg-9 col-md-9 col-sm-12">
+                            <input type="text" required id="to_recipient" name="to_recipient"  class="col-5"  value="" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-md-3 col-sm-12">Amount</label>
+                        <div class="col-lg-9 col-md-9 col-sm-12">
+                            <input type="number" required  class="col-5" id="amount" name="amount" value="" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-md-3 col-sm-12">Commissions Fee:</label>
+                        <div class="col-lg-9 col-md-9 col-sm-12">
+                            <input type="text" readonly  class="col-5"  name="commissions_fee" value="<%= commissions_fee %>%" />
+                        </div>
+                    </div>
+                    <div class="row form-group" >
+                        <label class="col-lg-3 col-md-3 col-sm-12">Total Amount:</label>
+                        <div class="col-lg-9 col-md-9 col-sm-12">
+                            <input type="number" readonly  class="col-5" id="closing_amount"  name="closing_amount" value="" />
+                        </div>
+                      
+                
+                    </div>
+                    <div class="form-group row col-5 justify-content-center">
+                        <button type="submit" class="btn btnformmpay col-lg-5 col-md-5 col-sm-12 ">Send</button>
+                    </div>
+                </form>
+            </div> 
+           
+        </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#to_recipient').blur(function(e){
+            e.preventDefault();
+            $.post('/admin/user/checkUserAlreadyRegister',{loginaccount: $(this).val()},function(resp){
+                if(resp.status == 500){
+                    myCustomAlert(resp.text);
+                    $('#to_recipient').val('');
+                    return;
+                }
+            });
+        });
+        $('#amount').keyup(function(e){
+            e.preventDefault();
+            var result = parseInt($(this).val()) * 0.1;
+            $('#closing_amount').val(parseInt($(this).val()) + parseInt(result));
+        });
+       /*  $('#transferForm').submit(function() {
+            console.log("text");
+            return false;
+        }); */
+    });
+    
+        
+    </script>
+    

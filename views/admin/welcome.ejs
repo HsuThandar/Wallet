@@ -1,0 +1,110 @@
+<% include user_setting.ejs %>
+<div class="col-sm-12 col-lg-9 col-md-9">
+        <div class="card col-12">
+               
+                <div class="card-body  ">
+                    
+                   <div class="form">
+                       <div class="row col">
+                           <div class="col-4">
+                              Date From <input type="date" class="filter" id="from-date" />
+                           </div>
+                           <div class="col-4">
+                              Date To <input type="date" class="filter" id="to-date" />
+                           </div>
+                           <div class="col-4" style="    margin-top: 1em;">
+                                <input type="button" class="btn btnformmpay downloadTransaction" value="Export CSV"/>
+                             </div>
+                       </div>
+                   </div>
+                </div> 
+               
+            </div>
+        <div class="card col-12">
+            <div class="card-header">Recent Activities</div>
+            <div class="card-body  ">
+                <div class="table-responsive">
+                        <table id="recectActivityTable" class="table table-striped w-100 d-block d-md-table">
+                                <thead>
+                                    <th>Transaction ID</th>
+                                    <th>Date</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Details</th>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                </div>
+               
+            </div> 
+           
+        </div>
+</div>
+
+<% include ./partials/js/activities %>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var init_error = "<%= error%>";
+        var init_status = "<%= status %>";
+        if(init_error || init_status){
+            myCustomAlert(init_error || init_status);
+        }
+        if($('#balance').val() == 0 || !$('#balance').val()){
+            $('.btnaddmoney').click();
+        
+        }
+
+        $('.downloadTransaction').click(function(e){
+            e.preventDefault();
+            var obj = {
+                fromdate : $('#from-date').val(),
+                todate : $('#to-date').val()
+            }
+           
+            $.post('/admin/transactionlog/downloadtransaction',obj,function(resp){
+                if(resp.status == 500){
+                    myCustomAlert(resp.text);
+                }else{
+                    myCustomAlert(resp.text);
+                    var result = resp.data;
+                    
+var headers = {
+    mm_tran_log_v_id: 'Transaction ID'.replace(/,/g, ''), // remove commas to avoid errors
+    mm_tran_date: "Transactin Date".replace(/,/g, ''),
+    loginaccount: "Name".replace(/,/g, ''),
+    mm_tran_status: "Transaction Status".replace(/,/g, ''),
+    amount: "Amount",
+    old_balance: "Old Balance".replace(/,/g, ''),
+    new_balance: "New Balance".replace(/,/g, '')
+};
+
+itemsNotFormatted = resp.data;
+
+var itemsFormatted = [];
+
+// format the data
+itemsNotFormatted.forEach((item) => {
+    itemsFormatted.push({
+        mm_tran_log_v_id: item.mm_tran_log_v_id.replace(/,/g, ''), // remove commas to avoid errors
+        mm_tran_date: item.mm_tran_date.replace(/,/g, ''),
+        loginaccount: item.loginaccount.replace(/,/g, ''),
+        mm_tran_status: item.mm_tran_status.replace(/,/g, ''),
+        amount: item.amount,
+        old_balance: item.old_balance,
+        new_balance: item.new_balance
+    });
+});
+
+var fileTitle = 'Transaction log of <%=  settings.user.loginaccount %>'; // or 'my-unique-title'
+
+exportCSVFile(headers, itemsFormatted, fileTitle);
+                } 
+            });
+        });
+    });
+        
+       
+    
+</script>

@@ -1,0 +1,44 @@
+
+
+<div class="container-fluid usersite_header">
+	<div class="row col">
+		<div class="col-3">
+			<a href="/"  class="usersite-brand">	<i class="fa fa-hand-holding-usd"><%= domainname %></i>
+			</a>
+		</div>
+		
+		<div class="usersite_headerbutton text-right col-9" >
+			
+			<a class="btn btn-secondary site-btn" href="/admin/login" id="btnlogin">Login</a>
+			<a class="btn btnformmpay site-btn" href="/admin/signup" id="btnsignup">SignUp</a>
+		</div>
+	</div>
+	<div class="row justify-content-center">
+		<div class="usersite_headermenu " >
+			<a class="btn menu_atag font-weight-bold <%= pathname == 'home' ? 'active' : ''%>" href="/">Home</a>
+			<a class="btn menu_atag font-weight-bold d-none" href="#">Personal</a>
+			<a class="btn menu_atag font-weight-bold <%= pathname == 'how_it_works' ? 'active' : ''%>" href="/how_it_works" >How It Works</a>
+			<a class="btn menu_atag font-weight-bold <%= pathname == 'contact' ? 'active' : ''%>" href="/contact">Contact</a>
+		</div>
+	</div>
+	
+	
+</div>
+
+<!--
+	Alert Modal -->
+<div class="modal fade alertModal" style="z-index: 2000;" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+			<span class="text-danger">Alert!</span>
+		</div>
+		<div class="modal-body text-center alertModalBody">
+		 
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-primary alertModal_Comfirm ">Ok</button>
+		</div>
+	  </div>
+	</div>
+  </div>

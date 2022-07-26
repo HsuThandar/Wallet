@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+			<% include ./partials/head %>
+	</head>
+
+	<body>
+			<style>
+					.usersite_header{
+						margin-top: 1em;
+						margin-bottom: 1em;
+					}
+					.usersite-brand{
+						font-size: 1.5em;
+						color: #0C5F8F;
+					}
+					.menu_atag{
+						text-align: center;
+						margin-right: 2em;
+					}
+				</style>
+				<div class="container usersite_header">
+					<div class="row col">
+							
+							<div class=" col-5">
+								<a href="/" class="usersite-brand ">	<i class="fa fa-hand-holding-usd"><%= domainname %></i>
+							</a></div>
+						
+						<div class="usersite_headerbutton text-right col-7" >
+							
+							<a class="btn btn-secondary site-btn d-none" href="/admin/login" id="btnlogin">Login</a>
+							<a class="btn btnformmpay site-btn" href="/admin/signup" id="btnsignup">SignUp</a>
+						</div>
+					</div>
+					
+				</div>
+				
+	<!-- 		<fb:login-button 
+				scope="public_profile,email"
+				onlogin="checkLoginState();">
+				</fb:login-button>-->
+				
+				<div class="container">
+				<div class="row justify-content-center ">
+					<div class="card " style="width: 31em;     box-shadow: 1px 5px 6px 1px #eae0e0;">
+							<div class="card-header" style="    font-size: 1.2em;
+							color: #0C5F8F;
+							font-weight: bold;">Login</div>
+							<div class="card-body">
+								<form id="loginForm" method="POST" action="/admin/emaillogin/loginWithUsernamePassword">
+									<% if(error){%>
+										<div class="alert alert-warning" role="alert">
+											Your username and password don't match.Try again.
+										</div>
+									<%}%>
+									
+									<div class="form-group row justify-content-center" >
+										
+										<input class="col-7 form-control  form-control-lg" type="text" id="loginaccount" required name="loginaccount" placeholder="Your Email or Phone" />
+									
+									</div>
+									<div class="form-group row justify-content-center" >
+										
+										<input class="col-7 form-control  form-control-lg" type="password" id="password" required name="password" placeholder="Password" />
+									
+									</div>
+									
+									<div class="form-group row justify-content-center">
+                                         
+											<button type="submit" class="btn btn-secondary btn-lg">Login</button> 
+										</div>
+									
+								</form>
+								<a href="/forgetpassword">Forget password?</a>
+								
+									<br>
+								<h4 style="text-align: center;">or</h4>
+								<br>
+									
+									<div class="row justify-content-center " >
+									
+										<div class="" style="padding-right: 5px; padding-bottom: 5px;"> 
+											<a href="/admin/emaillogin/auth/facebook" class="btn btn-md btn-social btn-facebook">
+											<i class="fab fa-facebook-f"></i> Continue with Facebook
+											</a>
+										</div>
+										<div class=""> 
+											<a href="/admin/emaillogin/auth/google" class="btn btn-md btn-social btn-gmail">
+												<i class="fab fa-google"></i> Continue with Gmail
+											</a>
+										</div>
+									</div>
+							</div>
+							
+						</div>
+				</div>
+		
+					
+			</div>
+		
+	
+			<% include ./partials/script %>
+
+			<script>
+
+
+				
+			
+				</script>	  
+	</body>
+	
+</html>

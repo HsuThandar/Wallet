@@ -1,0 +1,68 @@
+
+<div class="col-sm-12 col-lg-3 col-md-3">
+        <div class="card">
+            <div class="card-header"><%= settings.user.loginaccount %></div>
+            <div class="card-body row">
+              <div class="col-8">
+                <label>Avaliable Balance:<br>
+                <%= settings.user.balance %> kyats
+                <input type="hidden" id="balance" value="<%=settings.user.balance%>"></label>
+                <br>
+               </div>
+               <div class="col-4">
+                 
+                <a class="btn btnUserQRcode">
+                  <i class="fa fa-qrcode fa-3x firstchoiceColor" aria-hidden="true"></i>
+                </a>
+              </div>   
+            </div> 
+            <div class="">
+                    <% var pathname_arr = pathname.split('/');
+                  
+                  var details= 'userinactive';var welcome= 'userinactive';var transfer= 'userinactive';
+                  var addfunds= 'userinactive'; var bankaccountinfo = 'userinactive';var withdrawal='userinactive';
+                  if(pathname_arr[3] == 'details'){
+                    details = 'active_usermenu';
+                  }else if(pathname_arr[3] == 'welcome'){
+                    welcome = 'active_usermenu';
+                  
+                  }else if(pathname_arr[3] == 'transfer'){
+                    transfer = 'active_usermenu';
+                  
+                
+                  }else if(pathname_arr[3] == 'withdrawal'){
+                    withdrawal = 'active_usermenu';
+                  
+                  }else if(pathname_arr[3] == 'bankaccountinfo'){
+                    bankaccountinfo = 'active_usermenu';
+                  }%>
+                <div class="card-footer  <%= details %>">
+                 <%= pathname_arr[0] %>
+                    <a class="underline_atag  " href="/admin/user/details" >Account Info</a>
+
+                </div>
+                <div class="card-footer  <%= welcome %>">
+                    <a class="underline_atag " href="/admin/user/welcome" >Transaction History</a>
+
+                </div>
+                <div class="card-footer <%= bankaccountinfo %>">
+                  <a href="/admin/banking/bankaccountinfo" class="underline_atag ">Bank Information</a>
+
+              </div>
+              <div class="card-footer  <%= addfunds %>">
+                <a href="#" class="underline_atag btnaddmoney ">Add Funds</a><br>
+
+            </div>
+                <div class="card-footer <%= transfer %>">
+                    <a href="/admin/banking/transfer"  class="underline_atag">Transfer Money</a><br>
+
+                </div>
+                <div class="card-footer <%= withdrawal %>">
+                    <a href="/admin/banking/withdrawal"  class="underline_atag">Withdrawal Money</a><br>
+
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
